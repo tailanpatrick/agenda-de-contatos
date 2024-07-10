@@ -1,0 +1,38 @@
+<%-include('includes/head');%>
+
+<section class="container">
+  <%= umaVariavelLocal %>
+	<h1>
+		<%# Comentário para texto comum %>
+		<!-- Usar quando for somente texto comum -->
+		<%= %> <%# Comentário para texto HTML %>
+		<!-- Usar quando texto do servidor for HTML -->
+		<%- %> <% if (typeof titulo !== 'undefined') { %> <%= titulo %> <% }
+		else { %> O título não foi enviado <% } %>
+	</h1>
+
+	<table>
+		<tr>
+			<% numeros.forEach( num => {%>
+			<td><%= num %></td>
+			<% });%>
+		</tr>
+	</table>
+
+	<table>
+		<tr>
+			<% numeros.forEach( num => {%>
+			<td><%= num %></td>
+			<% });%>
+		</tr>
+	</table>
+
+	<form action="/" method="post">
+		<input type="hidden" name="_csrf" value="<%=csrfToken%>">
+		<label>Cliente</label>
+		<input type="text" name="cliente" />
+		<button type="submit">Enviar</button>
+	</form>
+</section>
+
+<%- include('includes/footer');%>
