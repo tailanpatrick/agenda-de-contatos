@@ -1,0 +1,48 @@
+<%-include('includes/head');%>
+
+<div class="container max-w-[880px] mx-auto">
+	<%-include('includes/components/navbar')%> 
+  
+  <%if(!auth){%>
+	<div class="h-full md:min-h-[450px] md:max-h-[450px] bg-gray-100 flex justify-center" style="min-height: calc(100vh - 64px);">
+		<div class="w-full md:w-[450px] py-6 px-10 h-80 mt-20 bg-white rounded shadow-xl">
+			<h1 class="font-bold inline-block mb-4">Cadastre-se:</h1>
+			<form action="">
+				<div class="mb-6">
+					<label for="name" class="block text-gray-800 font-bold"
+						>E-Mail:</label
+					>
+					<input
+						type="text"
+						name="email"
+						id="name"
+						placeholder="email@provedor.com"
+						class="w-full border border-gray-300 py-2 pl-3 rounded mt-2 outline-none focus:ring-indigo-600 :ring-indigo-600"
+					/>
+				</div>
+
+				<div>
+					<label for="email" class="block text-gray-800 font-bold"
+						>Senha:</label
+					>
+					<input
+						type="password"
+						name="password"
+						id="password"
+						placeholder="Digite sua senha"
+						class="w-full border border-gray-300 py-2 pl-3 rounded mt-2 outline-none focus:ring-indigo-600 :ring-indigo-600"
+					/>
+
+				</div>
+				<butt
+					class="cursor-pointer py-2 px-4 block mt-6 bg-[#0D7DC0] text-white font-bold w-full text-center rounded"
+					>Login</butt
+				>
+			</form>
+		</div>
+	</div>
+
+	<%}%> 
+  
+  <%-include('includes/footer');%>
+</div>
