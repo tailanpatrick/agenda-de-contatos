@@ -1,13 +1,12 @@
-<div class="md:px-20 shadow bg-gray-100 h-auto" style="max-height: calc(100vh - 64px);">
-    <div class="px-4 md:px-20 overflow-y-scroll bg-white" style="max-height: calc(100vh - 18vh);">
-        <ul role="list" class="divide-y divide-gray-200">
+<div class="relative md:px-20 shadow bg-gray-100 h-auto" style="max-height: calc(100vh - 64px); min-height: calc(100vh - 64px);">
+    <div class="px-4 md:px-20 overflow-y-scroll bg-white" style="max-height: calc(100vh - 23vh);">
+        <ul id="contactList" role="list" class="divide-y divide-gray-200">
 
-            <% for(let cont=0; cont<= 18;cont++){ %>
+            <% for(let cont=1; cont<= 18;cont++){ %>
             <li class="py-3 sm:py-4 cursor-pointer">
                 <div class="flex items-center space-x-4">
-                    <div
-                        class="flex items-center align-middle justify-center w-10 h-10 bg-[#0D7DC0] text-white rounded-full text-lg font-bold">
-                        C
+                    <div class="flex items-center justify-center w-12 h-10 bg-[#0D7DC0] text-white rounded-full text-lg font-bold">
+                        M
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-gray-900 truncat">
@@ -23,5 +22,6 @@
             <% } %>
         </ul>
     </div>
+    <%-include('button-add-contact') %>
 
 </div>
