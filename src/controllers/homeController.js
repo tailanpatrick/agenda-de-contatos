@@ -1,6 +1,6 @@
 const HomeModel = require('../models/HomeModel');
 
-exports.paginaInicial = (req, res, next) => {
+exports.index = (req, res, next) => {
     const auth = true;
 
     res.render('index', {
@@ -9,8 +9,4 @@ exports.paginaInicial = (req, res, next) => {
     });
 
     return;
-}
-
-exports.trataPost = (req, res, next) => {
-    res.send(req.body);
 }

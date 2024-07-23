@@ -3,35 +3,22 @@ const path = require('path');
 module.exports = {
   mode: 'production',
   entry: './src/frontend/main.js',
-
   output: {
-    path: path.resolve(__dirname, 'public', 'assets', 'js'),
+    path: path.resolve(__dirname, 'public/assets/js'),
     filename: 'bundle.js'
   },
-
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'public'),  // Corrigido para refletir a estrutura correta
-    },
-    port: 3000,
-    open: true,
-    hot: true,
-    compress: true,
-    historyApiFallback: true,
-  },
-
   module: {
     rules: [
       {
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        test: /\.js$/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/env']
+            presets: ['@babel/preset-env', '@babel/preset-react']
           }
         }
-      }, 
+      },
       {
         test: /\.css$/,
         use: [
@@ -46,11 +33,24 @@ module.exports = {
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
-            outputPath: 'assets/img' // Ajustar se necessário
+            outputPath: 'assets/img'
           }
         }
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, 'public'),
+    },
+    port: 3000,
+    open: true,
+    hot: true,
+    compress: true,
+    historyApiFallback: true,
   },
   devtool: 'source-map'
 };

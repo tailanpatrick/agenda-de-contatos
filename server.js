@@ -5,11 +5,11 @@ const mongoose = require('mongoose');
 const CONNECTION_STRING = process.env.MONGO_DB_CONECTION_STRING
 
 mongoose.connect(CONNECTION_STRING)
-.then(() => {
-    app.emit('pronto')
-    
-})
-.catch(e => console.log(e));
+    .then(() => {
+        app.emit('pronto')
+
+    })
+    .catch(e => console.log(e));
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -18,8 +18,9 @@ const routes = require('./routes');
 const path = require('path');
 const helmet = require('helmet');
 const csrf = require('csurf');
-const {middlewareGlobal, checkCsrfError, csrfMidddleware} = require('./src/middlewares/middleware')
+const { middlewareGlobal, checkError, csrfMidddleware, check404 } = require('./src/middlewares/middleware')
 
+const React = require('react');
 
 // precisa usar o use express.urlencoded como true para receber o corpo da requisção POST
 app.use(express.urlencoded({ extended: true }))
@@ -38,13 +39,22 @@ const sessionOptions = session({
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true
     }
-    
+
 })
 
 // usa o helmet
 app.use(helmet());
 
 
+// Configurando a CSP com Helmet
+app.use(
+    helmet.contentSecurityPolicy({
+        useDefaults: true,
+        directives: {
+            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com"],
+        },
+    })
+)
 
 // usa a sessao
 app.use(sessionOptions);
@@ -55,27 +65,40 @@ app.use(flash());
 app.use(csrf());
 
 
-//usa os middlwares
+//usa os middlewares global
 app.use(middlewareGlobal);
 
-//usa o middleware da verificação de erro csrf
-app.use(checkCsrfError);
 
 // usa o middleware de injeção de token csrf
 app.use(csrfMidddleware);
 
+//usa o middleware da verificação de erro csrf
+app.use(checkError);
 
-//setando a view engine para o projeto
-app.set('view engine', 'ejs');
+// Configuração do diretório de views
+app.set('views', path.join(__dirname, 'views'));
 
-
-// setando as views do projeto
-app.set('views', path.resolve(__dirname, 'src', 'views'));
+// Configuração do view engine
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 
 // usando as rotas do arquivo routes
 app.use(routes);
+
+
+app.get('/raw-html', (req, res) => {
+    res.render('index', {}, (err, html) => {
+      if (err) {
+        res.status(500).send(err.message);
+      } else {
+        res.send(`<pre>${html.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
+      }
+    });
+  });
+
+// !! IMPORTANTE !! - usar o middleware de 404 depois de usar as rotas
+app.use(check404);
 
 // verificando se conectado a base a partir de um emit chamado pronto
 app.on('pronto', () => {

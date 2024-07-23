@@ -3,3 +3,7 @@ exports.register = (req, res, next) => {
         auth: false
     })
 }
+
+exports.postRegister = (req, res) => {
+    
+}

@@ -1,5 +1,5 @@
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
     res.render('login', {
-        auth: false
+        auth: true
     })
 }

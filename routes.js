@@ -1,19 +1,16 @@
-const express = require('express')
-const homeController = require('./src/controllers/homeController');
-const loginController = require('./src/controllers/loginController');
-const registerController = require('./src/controllers/registerController')
+const express = require('express');
+const path = require('path');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
 
 const route = express.Router();
 
-// Rotas da home
-route.get('/', homeController.paginaInicial);
-route.post('/', homeController.trataPost);
 
-// rotas login
-route.get('/login', loginController.login);
+route.get('*', (req, res) => {
+    // Envia o arquivo HTML principal para todas as requisições
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
 
-// rotas cadastro
-route.get('/register', registerController.register);
 
 
 module.exports = route;

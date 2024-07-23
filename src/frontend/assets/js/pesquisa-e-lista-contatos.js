@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("searchInput");
+    const contactList = document.getElementById("contactList");
+    const searchButton = document.getElementById("searchButton");
+
+    if (!searchInput || !contactList || !searchButton) {
+        return;
+    }
+
     const contacts = [
         { name: "Neil Sims", phone: "(31) 98807-6914" },
         { name: "Bob Smith", phone: "(31) 98807-6916" },
@@ -14,10 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { name: "Alice Johnson", phone: "(31) 98807-6915" },
         // Adicione mais contatos conforme necessário
     ];
-
-    const searchInput = document.getElementById("searchInput");
-    const contactList = document.getElementById("contactList");
-    const searchButton = document.getElementById("searchButton");
 
     function renderContacts(filteredContacts) {
         contactList.innerHTML = "";
@@ -42,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function filterContacts() {
         const query = searchInput.value.toLowerCase();
         const filteredContacts = contacts.filter(contact =>
-            contact.name.toLowerCase().includes(query)||
+            contact.name.toLowerCase().includes(query) ||
             contact.phone.replace(/\D/g, '').replace(' ', '').includes(query)
         );
         renderContacts(filteredContacts);
@@ -50,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     searchInput.addEventListener("input", filterContacts);
     searchButton.addEventListener("click", filterContacts);
-    
+
 
     renderContacts(contacts);
 });

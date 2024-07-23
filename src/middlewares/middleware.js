@@ -1,18 +1,33 @@
+const helmet = require('helmet');
+
 exports.middlewareGlobal  = (req, res, next) => {
-    res.locals.umaVariavelLocal = 'Este é o valor da variavel local'
     next();
 }
-
-// middleware que verifica erros de csrf
-exports.checkCsrfError =  (err, req, res, next) => {
-    if(err && err.code === 'EBADCSRFTOKEN'){
-        return res.render('includes/error', {
-            code: err.statusCode
-        })
-    }
-};
 
 exports.csrfMidddleware = (req, res, next) => {
     res.locals.csrfToken = req.csrfToken();
     next();
+}
+
+// middleware que verifica erros de csrf
+exports.checkError =  (err, req, res, next) => {
+    if(err){
+        let errorMessage = 'Erro interno do servidor';
+
+        if (err.statusCode === 403) errorMessage = 'Operação não permitida';
+        
+        return res.render('error', {
+            errorCode: err.statusCode || '', 
+            errorMessage: errorMessage
+        })
+    }
+    next();
+};
+
+exports.check404 = (req, res, next) => {
+    res.status(404).render('error', {
+        errorMessage: 'A página solicitada não existe',
+        errorCode: 404
+    });
+    next()
 }
