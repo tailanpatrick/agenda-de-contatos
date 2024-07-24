@@ -4,9 +4,10 @@ import ButtonAddContact from './ButtonAddContact';
 
 function ContactListPage({ contacts }) {
   return (
-    <div className="relative md:px-20 shadow md:bg-gray-100 h-auto" style={{ maxHeight: 'calc(100vh - 17vh)', minHeight: 'calc(100vh - 17vh)' }}>
-      <div className="px-4 md:px-20 md:h-full overflow-y-scroll bg-white" style={{ maxHeight: 'calc(100vh - 16vh)' , minHeight: 'calc(100vh - 17vh)' }}>
+    <div className="relative md:px-20 shadow md:bg-gray-100 h-auto" style={{ maxHeight: 'calc(100vh - 22vh)', minHeight: 'calc(100vh - 22vh)' }}>
+      <div className="px-4 md:px-20 md:h-full overflow-y-scroll bg-white" style={{ maxHeight: 'calc(100vh - 22vh)' , minHeight: 'calc(100vh - 22vh)' }}>
         <ul id="contactList" role="list" className="divide-y divide-gray-200 border-b border-gray-200">
+
           {contacts.map((contact, index) => (
             <li key={index} className="py-3 sm:py-4 cursor-pointer">
               <div className="flex items-center space-x-4">
@@ -20,6 +21,7 @@ function ContactListPage({ contacts }) {
               </div>
             </li>
           ))}
+          
         </ul>
       </div>
       <ButtonAddContact />
