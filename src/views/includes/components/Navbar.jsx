@@ -41,13 +41,13 @@ function Navbar({ auth, contacts, setFilteredContacts }) {
               </Link>
             ) : (
               <>
-                <a href="/register" className="text-gray-800 text-sm">CADASTRO</a>
-                <a
-                  href="/login"
+                <Link to="/register" className="text-gray-800 text-sm">CADASTRO</Link>
+                <Link
+                  to="/login"
                   className="bg-[#0D7DC0] px-4 py-2 rounded text-white hover:bg-[#0AABF4] text-sm"
                 >
                   LOGIN
-                </a>
+                </Link>
               </>
             )}
           </div>
