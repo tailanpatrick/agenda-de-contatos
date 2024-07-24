@@ -7,6 +7,15 @@ const initialContacts = [
   { name: "Bob Smith", phone: "(31) 98807-6916" },
   { name: "Alice Johnson", phone: "(31) 98807-6915" },
   { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+  { name: "Alice Johnson", phone: "(31) 98807-6915" },
  
   // Adicione mais contatos conforme necessário
 ];
