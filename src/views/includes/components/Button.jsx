@@ -11,6 +11,7 @@ const Button = ({ type, children, isLoading }) => {
               ${isLoading ? "opacity-45 cursor-not-allowed " :  "hover:bg-[#0AABF4]"}`}
             type={type}
             disabled={isLoading}
+    
         >
             {isLoading && (<FaSpinner className="animate-spin mr-2 text-white"/>)} {children}
         </button>
