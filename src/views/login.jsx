@@ -1,87 +1,142 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useCsrf } from './contexts/CsrfContext';
+
 import { z } from 'zod';
+import axios from 'axios';
+
 import Navbar from './includes/components/Navbar';
 import Input from './includes/components/Input';
 import Button from './includes/components/Button';
+import ErrorMessage from './includes/components/ErrorMessage';
+import SuccessMessage from './includes/components/SuccessMessage';
+import { useAuth } from './contexts/AuthContext';
 
 const schema = z.object({
-	email: z.string()
-	.nonempty({ message: 'Digite seu Email' })
-	.email({ message: 'Email inválido' }),
-	password: z.string()
-	.nonempty({ message: 'Digite sua Senha' })
-	.min(6, { message: 'Sua Senha é mínimo 6 caracteres' })
-})
+  email: z.string()
+    .nonempty({ message: 'Digite seu Email' })
+    .email({ message: 'Email inválido' }),
+  password: z.string()
+    .nonempty({ message: 'Digite sua Senha' })
+    .min(6, { message: 'Sua Senha é mínimo 6 caracteres' })
+});
 
 function Login() {
-	const [ isLoading, setIsLoading ] = useState(false);
-	const [ formData, setFormData ] = useState({
-		email:'',
-		password: ''
-	})
+  const location = useLocation();
+  const message = location.state;
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [error, setError] = useState('');
 
-	const [ errors, setErrors ] = useState({});
 
-	function handleChange(e){
-		setFormData({
-			...formData,
-			[e.target.name]: e.target.value
-		});
-	}
+  const csrfToken = useCsrf();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
-	function handleSubmit(e) {
-		e.preventDefault();
-		setIsLoading(true);
+  useEffect(() => {
+    if (user && !loading) {
+      navigate('/');
+    }
+  }, [user, loading, navigate]);
 
-		const result = schema.safeParse(formData);
+  function handleChange(e) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  }
 
-		if (!result.success){
-			const fieldErrors = result.error.format();
-			setErrors(fieldErrors);
-			setIsLoading(false);
-			return;
-		}
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setIsLoading(true);
 
-		setTimeout(() => {
-			setIsLoading(false);
-		}, 3000)
-	}
+    const result = schema.safeParse(formData);
 
-	return (
-		<>
-			<Navbar />
+    if (!result.success) {
+      const fieldErrors = result.error.format();
+      setFieldErrors(fieldErrors);
+      setIsLoading(false);
+      return;
+    }
 
-			<div className="h-full md:min-h-[450px] md:max-h-[450px] bg-gray-100 flex justify-center" style={{ minHeight: 'calc(100vh - 64px)' }}>
-				<div className="w-full md:w-[450px] py-6 px-10 h-full mt-20 bg-white rounded shadow-xl">
-					<h1 className="font-bold inline-block mb-4">Faça Login em sua conta: </h1>
-					<form onSubmit={handleSubmit} action="/login" method="POST">
+    setFieldErrors({});
 
-						<Input type="text"
-							id="email"
-							placeholder="email@provedor.com"
-							label="Email:"
-							autocomplete={true}
-							onChange={handleChange}
-							errors={errors}
-						/>
+    try {
+      const response = await axios.post('/api/login', {
+        email: formData.email,
+        password: formData.password
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'CSRF-Token': csrfToken
+        }
+      });
 
-						<Input type="password"
-							id="password"
-							placeholder="Digite uma senha"
-							label="Senha:"
-							autocomplete={true}
-							onChange={handleChange}
-							errors={errors} />
+      setError(''); // Limpar qualquer erro anterior após o sucesso
+      
+      window.location.href = '/';
+      console.log(response.data.message)
+    } catch (error) {
+      
+      if (error.response && error.response.status === 400) {
+        setError(error.response.data.error || 'Erro ao fazer a requisição');
+      } else {
+        console.error(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
-						<Button type="submit" isLoading={isLoading}>
-							Login
-						</Button>
-					</form>
-				</div>
-			</div>
-		</>
+  return (
+    <>
+      <Navbar />
 
-	);
+      <div className="h-full md:min-h-[450px] md:max-h-[450px] bg-gray-100 flex justify-center" style={{ minHeight: 'calc(100vh - 64px)' }}>
+        <div className="w-full md:w-[450px] py-6 px-10 h-full mt-20 bg-white rounded shadow-xl">
+          {message && (<SuccessMessage>{message}</SuccessMessage>)}
+
+          <h1 className="font-bold inline-block mb-4">Faça Login em sua conta:</h1>
+          <form onSubmit={handleSubmit}>
+
+
+            <Input type="text"
+              id="email"
+              name="email"
+              placeholder="email@provedor.com"
+              label="Email:"
+              autoComplete="true"
+              onChange={handleChange}
+              errors={fieldErrors}
+            />
+
+            <Input type="password"
+              id="password"
+              name="password"
+              placeholder="Digite uma senha"
+              label="Senha:"
+              autoComplete="true"
+              onChange={handleChange}
+              errors={fieldErrors}
+            />
+			
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+
+            <Button type="submit" isLoading={isLoading}>
+              Login
+            </Button>
+
+          </form>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Login;

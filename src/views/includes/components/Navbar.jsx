@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import Search from './Search'; 
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext'
+
+import Search from './Search'; 
 
 function Navbar({ auth, contacts, setFilteredContacts }) {
   const [query, setQuery] = useState('');
+  const { logout } = useAuth();
+
+  const handleLogOut = async () => {
+    await logout();
+
+  }
 
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
@@ -33,12 +41,12 @@ function Navbar({ auth, contacts, setFilteredContacts }) {
           </div>
           <div className="flex space-x-4 items-center">
             {auth ? (
-              <Link
-                to="/login"
+              <button
                 className="bg-[#0D7DC0] px-4 py-2 rounded text-white hover:bg-[#0AABF4] text-sm"
+                onClick={handleLogOut}
               >
                 SAIR
-              </Link>
+              </button>
             ) : (
               <>
                 <Link to="/register" className="text-gray-800 text-sm">CADASTRO</Link>

@@ -3,6 +3,7 @@ require('dotenv').config();
 const app = express();
 const mongoose = require('mongoose');
 const CONNECTION_STRING = process.env.MONGO_DB_CONECTION_STRING
+const cors = require('cors');
 
 mongoose.connect(CONNECTION_STRING)
     .then(() => {
@@ -11,10 +12,24 @@ mongoose.connect(CONNECTION_STRING)
     })
     .catch(e => console.log(e));
 
+const allowedOrigins = ['http://localhost:3000', 'http://192.168.100.175:3000'];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
+
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
-const routes = require('./routes');
+const routes = require('./src/routes/pages');
+const api = require('./src/routes/api');
 const path = require('path');
 const helmet = require('helmet');
 const csrf = require('csurf');
@@ -38,8 +53,8 @@ const sessionOptions = session({
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true
-    }
-
+    },
+    unset: 'destroy'
 })
 
 // usa o helmet
@@ -84,18 +99,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // usando as rotas do arquivo routes
+app.use('/api', api);
 app.use(routes);
-
-
-app.get('/raw-html', (req, res) => {
-    res.render('index', {}, (err, html) => {
-      if (err) {
-        res.status(500).send(err.message);
-      } else {
-        res.send(`<pre>${html.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
-      }
-    });
-  });
 
 // !! IMPORTANTE !! - usar o middleware de 404 depois de usar as rotas
 app.use(check404);
