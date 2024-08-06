@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const Input = ({ id, type, placeholder, autocomplete = true, required, label, onChange, errors, onBlur }) => {
+const Input = ({ id, type, placeholder, autocomplete = true, required, label, onChange, errors, onBlur, value }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const toggleShowPassword = () => {
@@ -23,6 +23,7 @@ const Input = ({ id, type, placeholder, autocomplete = true, required, label, on
                 required={required}
                 onChange={onChange}
                 onBlur={onBlur}
+                value={value}
             />
             {type === 'password' && (
                 <div className="absolute top-10 right-3 pr-3 flex items-center text-2xl leading-5">

@@ -6,27 +6,10 @@ import Navbar from './includes/components/Navbar'; // Verifique o caminho corret
 import ContactListPage from './includes/components/ContactListPage'; // Verifique o caminho correto
 import Loading from './includes/components/Loading';
 
-const initialContacts = [
-  { name: "Neil Sims", phone: "(31) 98807-6914" },
-  { name: "Bob Smith", phone: "(31) 98807-6916" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
-  { name: "Alice Johnson", phone: "(31) 98807-6915" },
+function Home({ contacts }) {
 
-  // Adicione mais contatos conforme necessário
-];
-
-function Home() {
-  const [contacts, setContacts] = useState(initialContacts);
-  const [filteredContacts, setFilteredContacts] = useState(initialContacts);
+  contacts = [...contacts].sort((a, b) => a.name.localeCompare(b.name));
+  const [filteredContacts, setFilteredContacts] = useState(contacts);
 
   const navigate = useNavigate()
   const { user, loading } = useAuth();
@@ -52,7 +35,7 @@ function Home() {
 
   return (
     <>
-      <Navbar auth={auth} contacts={contacts} setFilteredContacts={setFilteredContacts} /> {/* Passe o valor correto para auth se necessário */}
+      <Navbar auth={auth} contacts={contacts} setFilteredContacts={setFilteredContacts} searchInput={true} /> {/* Passe o valor correto para auth se necessário */}
       <ContactListPage contacts={filteredContacts} />
     </>
   );

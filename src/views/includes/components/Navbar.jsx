@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext'
 
 import Search from './Search'; 
 
-function Navbar({ auth, contacts, setFilteredContacts }) {
+function Navbar({ auth, contacts, setFilteredContacts, searchInput }) {
   const [query, setQuery] = useState('');
   const { logout } = useAuth();
 
@@ -62,7 +62,7 @@ function Navbar({ auth, contacts, setFilteredContacts }) {
         </div>
       </div>
 
-      {auth && (
+      {auth && searchInput && (
         <div className="w-full">
           <Search query={query} onChange={handleSearchChange} />
         </div>
