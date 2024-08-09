@@ -27,6 +27,7 @@ const PhoneInput = ({ className, onChange, name, id, ...props }) => {
       className={className}
       id={id}
       name={name}
+      maxLength={15}
     />
   );
 };
