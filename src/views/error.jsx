@@ -2,11 +2,11 @@ const React = require('react');
 
 function Index({ element }) {
   return (
-    <div class="container max-w-[880px] overflow-hidden mx-auto h-full">
+    <div className="container max-w-[880px] overflow-hidden mx-auto h-full">
 
-        <div class="container mx-auto my-5">
-              <h1 class="text-4xl text-center">Erro {errorCode}</h1>
-              <p class="text-center text-lg">{errorMessage}</p>
+        <div className="container mx-auto my-5">
+              <h1 className="text-4xl text-center">Erro {errorCode}</h1>
+              <p className="text-center text-lg">{errorMessage}</p>
           </div>
         
     </div>

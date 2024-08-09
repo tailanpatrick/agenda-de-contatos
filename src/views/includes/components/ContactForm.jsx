@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Input from './Input';
-import InputPhone from './InputPhone';
+import PhoneInput from './PhoneInput';
 import Button from './Button';
 
 const ContactForm = ({ contact, onSave }) => {
@@ -25,6 +25,7 @@ const ContactForm = ({ contact, onSave }) => {
             ...formData,
             [e.target.name]: e.target.value
         });
+        
     };
 
     const handleSubmit = async (e) => {
@@ -51,11 +52,11 @@ const ContactForm = ({ contact, onSave }) => {
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                 required
             />
-            <InputPhone
+            <PhoneInput
                 id="phone"
                 name="phone"
-                value={formData.phone}
-                
+                value={formData.phone} 
+                onChange={handleChange}
                 placeholder="Telefone"
                 label="Telefone"
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
