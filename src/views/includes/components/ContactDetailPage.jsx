@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import { FaRegEdit } from "react-icons/fa";
 
-const ContactDetailPage = () => {
+const ContactDetailPage = ({ contacts, setContacts }) => {
     const location = useLocation();
     const { contact } = location.state;
     const navigate = useNavigate();
@@ -11,6 +11,13 @@ const ContactDetailPage = () => {
     const handleEditClick = (contact) => {
         navigate(`/edit-contact/${contact.id}`, { state: { contact } });
     };
+
+    const handleDeleteContact = async (contactToDelete) => {
+        setContacts(
+            contacts.filter(contact => contact.id !== contactToDelete.id)
+        )
+        navigate('/')
+    }
 
     return (
         <>
@@ -32,7 +39,8 @@ const ContactDetailPage = () => {
                                     <p className="text-xl text-gray-600">{contact.phone}</p>
                                 </div>
                                 <div className="flex justify-center mt-6">
-                                    <button className="text-white px-4 py-2 rounded-full bg-red-500 hover:bg-red-400 focus:outline-none">
+                                    <button className="text-white px-4 py-2 rounded-full bg-red-500 hover:bg-red-400 focus:outline-none"
+                                        onClick={() => handleDeleteContact(contact)}>
                                         Excluir Contato
                                     </button>
                                 </div>

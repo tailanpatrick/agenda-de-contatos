@@ -63,7 +63,7 @@ function App() {
             <Route path="/" element={<Home contacts={contacts}/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/contact/:id" element={<ContactDetailPage />} />
+            <Route path="/contact/:id" element={<ContactDetailPage contacts={contacts} setContacts={setContacts}/>} />
             <Route path="/add-contact" element={<AddEditContactPage onSave={handleSaveContact} />} />
             <Route path="/edit-contact/:id" element={<AddEditContactPage onSave={handleSaveContact} />} />
           </Routes>
