@@ -56,8 +56,8 @@ const ContactDetailPage = ({ contacts, setContacts }) => {
     return (
         <>
             <Navbar auth={true} />
-            <div className="relative md:px-20 shadow md:bg-gray-100 h-screen" style={{ maxHeight: 'calc(100vh - 13vh)', minHeight: 'calc(100vh - 13vh)' }}>
-                <div className="flex flex-col h-screen items-center justify-center px-4 md:px-20 md:h-full overflow-y-scroll bg-gray-100">
+            <div className="relative md:px-20 shadow md:bg-gray-100 h-screen" style={{ maxHeight: 'calc(100vh - 8vh)', minHeight: 'calc(100vh - 8vh)' }}>
+                <div className="flex flex-col h-screen items-center pt-20 px-4 md:px-20 md:h-full overflow-y-scroll bg-gray-100">
                     <div className="bg-white shadow-xl rounded-lg overflow-hidden">
                         <div className="w-full flex flex-col p-6 md:w-96 items-center justify-center">
                             <div className="flex justify-end w-full h-8 text-2xl">
