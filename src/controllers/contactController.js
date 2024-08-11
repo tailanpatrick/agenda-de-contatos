@@ -21,10 +21,10 @@ exports.register = async (req, res) => {
 }
 
 exports.getContacts = async (req, res) => {
-    const userId = req.session.user._id;
-
+    const userId = req.session?.user?._id || '';
+    
     try {
-
+        
         const contacts = await Contact.getContactsFromUser(userId);
         return res.status(200).json({ contacts: contacts });
     } catch(err){
