@@ -34,10 +34,14 @@ exports.getContacts = async (req, res) => {
 }
 
 exports.getContact = async (req, res) => {
-
+    const userId = req.session?.user?._id || '';
     try {
         const contact = await Contact.getContact(req.params.id);
-        return res.status(200).json({ contact : contact })
+        const contactUserId = contact.user._id.toString();
+
+        return contactUserId === userId ? 
+            res.status(200).json({ contact : contact }) :
+            res.status(400).json( {message: 'Precisa estar logado com o usuário desta tarefa'} )
     } catch(err){
         return res.status(400).json({ message : 'Falha ao buscar contatos' })
     }
