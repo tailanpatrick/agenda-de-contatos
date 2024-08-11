@@ -41,7 +41,7 @@ exports.getContact = async (req, res) => {
 
         return contactUserId === userId ? 
             res.status(200).json({ contact : contact }) :
-            res.status(400).json( {message: 'Precisa estar logado com o usuário desta tarefa'} )
+            res.status(400).json( {message: 'Precisa estar logado com o usuário deste contato'} )
     } catch(err){
         return res.status(400).json({ message : 'Falha ao buscar contatos' })
     }
