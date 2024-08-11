@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { z } from 'zod';
-import axios from 'axios';
 
 import Navbar from './includes/components/Navbar';
 import Input from './includes/components/Input';
@@ -10,6 +9,7 @@ import Button from './includes/components/Button';
 import ErrorMessage from './includes/components/ErrorMessage';
 import SuccessMessage from './includes/components/SuccessMessage';
 import { useAuth } from './contexts/AuthContext';
+import { login } from './services/login';
 
 const schema = z.object({
   email: z.string()
@@ -64,26 +64,7 @@ function Login() {
 
     setFieldErrors({});
 
-    try {
-      const response = await axios.post('/api/login', {
-        email: formData.email,
-        password: formData.password
-      });
-
-      setError(''); // Limpar qualquer erro anterior após o sucesso
-      
-      window.location.href = '/';
-      console.log(response.data.message)
-    } catch (error) {
-      
-      if (error.response && error.response.status === 400) {
-        setError(error.response.data.error || 'Erro ao fazer a requisição');
-      } else {
-        console.error(error);
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    await login(formData.email, formData.password, setError, setIsLoading);
   }
 
   return (
