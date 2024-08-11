@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useCsrf } from './contexts/CsrfContext';
 
 import { z } from 'zod';
 import axios from 'axios';
@@ -34,8 +33,6 @@ function Login() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [error, setError] = useState('');
 
-
-  const csrfToken = useCsrf();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -71,11 +68,6 @@ function Login() {
       const response = await axios.post('/api/login', {
         email: formData.email,
         password: formData.password
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'CSRF-Token': csrfToken
-        }
       });
 
       setError(''); // Limpar qualquer erro anterior após o sucesso

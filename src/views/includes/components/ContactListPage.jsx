@@ -6,7 +6,7 @@ function ContactListPage({ contacts }) {
   const navigate = useNavigate();
 
   const handleContactClick = (contact) => {
-    navigate(`/contact/${contact.id}`, { state: { contact } });
+    navigate(`/contact/${contact._id}`, { state: { contact } });
   };
 
   return (

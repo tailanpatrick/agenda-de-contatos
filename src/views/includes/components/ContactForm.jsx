@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Input from './Input';
 import PhoneInput from './PhoneInput';
 import Button from './Button';
 
 const ContactForm = ({ contact, onSave }) => {
     const [formData, setFormData] = useState({
-        id: '',
+        _id: '',
         name: '',
         phone: ''
     });
@@ -13,7 +15,7 @@ const ContactForm = ({ contact, onSave }) => {
     useEffect(() => {
         if (contact) {
             setFormData({
-                id: contact.id || '',
+                _id: contact._id || '',
                 name: contact.name || '',
                 phone: contact.phone || ''
             });
@@ -39,7 +41,7 @@ const ContactForm = ({ contact, onSave }) => {
 
     return (
         <>
-        <h2 className="text-2xl py-4">{contact?.id ? 'Editar Contato' : 'Criar novo Contato'}</h2>
+        <h2 className="text-2xl py-4">{contact?._id ? 'Editar Contato' : 'Criar novo Contato'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
             <Input
                 type="text"

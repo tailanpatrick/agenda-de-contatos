@@ -32,7 +32,6 @@ const routes = require('./src/routes/pages');
 const api = require('./src/routes/api');
 const path = require('path');
 const helmet = require('helmet');
-const csrf = require('csurf');
 const { middlewareGlobal, checkError, csrfMidddleware, check404 } = require('./src/middlewares/middleware')
 
 const React = require('react');
@@ -67,6 +66,7 @@ app.use(
         useDefaults: true,
         directives: {
             scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com"],
+            connectSrc: ["'self'", "http://192.168.100.175:3000"]
         },
     })
 )
@@ -76,16 +76,9 @@ app.use(sessionOptions);
 
 app.use(flash());
 
-// usa crsf
-app.use(csrf());
-
 
 //usa os middlewares global
 app.use(middlewareGlobal);
-
-
-// usa o middleware de injeção de token csrf
-app.use(csrfMidddleware);
 
 //usa o middleware da verificação de erro csrf
 app.use(checkError);

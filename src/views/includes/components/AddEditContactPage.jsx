@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+
 import ContactForm from '../components/ContactForm';
 import Navbar from './Navbar';
 
 const AddEditContactPage = ({ onSave }) => {
+    const { user, loading } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const contact = location.state ? location.state.contact : null;
-  
+    
+    useEffect(() => {
+        if(!loading && !user){
+            navigate('/login')
+        }
+    },[user, loading, navigate] )
+    
+
     const handleSave = async (contact) => {
         try {
             const savedContact = await onSave(contact);
             
-            navigate(`/contact/${savedContact.id}`, { state: { contact: savedContact } });
+            navigate(`/contact/${savedContact._id}`, { state: { contact: savedContact } });
         } catch (error) {
             console.error('Erro ao salvar o contato:', error);
         }

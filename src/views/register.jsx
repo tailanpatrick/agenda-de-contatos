@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCsrf } from './contexts/CsrfContext';
 import { useAuth } from './contexts/AuthContext';
 import { z } from 'zod';
 import axios from 'axios';
@@ -39,7 +38,6 @@ function Register() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [error, setError] = useState('');
 
-  const csrfToken = useCsrf();
   const { user, loading } = useAuth();
 
   useEffect(() => {
@@ -75,11 +73,6 @@ function Register() {
         email: formData.email,
         password: formData.password,
         re_password: formData.re_password
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'CSRF-Token': csrfToken
-        }
       });
 
       setError(''); // Limpar qualquer erro anterior após o sucesso
