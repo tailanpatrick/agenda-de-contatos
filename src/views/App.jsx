@@ -8,33 +8,13 @@ import Login from './login';
 import Register from './register';
 import ContactDetailPage from './includes/components/ContactDetailPage';
 import AddEditContactPage from './includes/components/AddEditContactPage';
+import { createEditContact } from './services/create-edit-contact';
 
 function App() {
   const [contacts, setContacts] = useState([]);
 
   const handleSaveContact = async (contact) => {
-    const isNewContact = !contact._id;
-    const savedContact = { ...contact };
-
-    try {
-      if (isNewContact) {
-        const response = await axios.post('/api/contact', {
-          name: savedContact.name,
-          phone: savedContact.phone
-        });
-        setContacts((prevContacts) => [...prevContacts, response.data]);
-        return response.data.contact;
-      } else {
-        const response = await axios.put(`/api/contact/${contact._id}`, contact);
-        setContacts((prevContacts) =>
-          prevContacts.map((c) => (c._id === contact._id ? response.data : c))
-        );
-
-        return response.data.contact;
-      }
-    } catch (error) {
-      console.error('Error saving contact:', error);
-    }
+    return await createEditContact(contact, setContacts);
   };
 
   return (
