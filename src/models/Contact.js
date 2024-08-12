@@ -37,6 +37,16 @@ class Contact {
         this.contact = await ContactModel.create(this.body);
     }
 
+    async edit(contactId){
+        if(typeof contactId !== 'string') return;
+
+        await this.validate();
+
+        if(this.errors.length > 0 ) return;
+
+        this.contact = await ContactModel.findByIdAndUpdate(contactId, this.body, {new : true});
+    }
+
     async validate() {
         this.cleanUp();
 
@@ -54,6 +64,10 @@ class Contact {
         };
     }
 
+    static async delete(contactId, userId){
+        return await ContactModel.findByIdAndDelete(contactId);
+    }
+
     static async getContactsFromUser(userId) {
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             throw new Error('ID de usuário inválido.');
@@ -62,9 +76,23 @@ class Contact {
         return await ContactModel.find({ user: userId });
     }
 
-    static async getContact(contactId){
-        return ContactModel.findById(contactId);
+    static async getContact(contactId) {
+
+        if (!mongoose.Types.ObjectId.isValid(contactId)) {
+            console.log(`ID inválido fornecido: ${contactId}`);
+            throw new Error('ID do contato inválido.');
+        }
+    
+        try {
+            const contact = await ContactModel.findById(contactId);
+    
+            return contact || null;
+        } catch (error) {
+            console.error('Erro ao buscar o contato:', error.message);
+            throw new Error('Erro ao buscar o contato no banco de dados.');
+        }
     }
+
 }
 
 module.exports = Contact;
