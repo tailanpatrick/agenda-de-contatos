@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+
 import { z } from 'zod';
-import axios from 'axios';
+
+import { register } from './services/register';
 
 import Navbar from './includes/components/Navbar';
 import Input from './includes/components/Input';
@@ -68,23 +70,14 @@ function Register() {
 
     setFieldErrors({});
 
-    try {
-      const response = await axios.post('/api/register', {
-        email: formData.email,
-        password: formData.password,
-        re_password: formData.re_password
-      });
-
-      setError(''); // Limpar qualquer erro anterior após o sucesso
-      
-      // Supondo que o backend defina o usuário no localStorage ou cookies
-      // Verifique se o `user` é atualizado no contexto `useAuth`
-      navigate('/login', { state: response.data.message });
-    } catch (error) {
-      setError(error.response?.data?.error || 'Erro ao fazer a requisição');
-    } finally {
-      setIsLoading(false);
-    }
+    await register(
+      formData.email,
+      formData.password,
+      formData.re_password, 
+      setError,
+      setIsLoading,
+      navigate
+    )
   }
 
   if (loading) {
