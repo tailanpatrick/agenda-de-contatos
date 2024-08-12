@@ -3,13 +3,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { z } from 'zod';
 
+import { login } from './services/login';
+
 import Navbar from './includes/components/Navbar';
 import Input from './includes/components/Input';
 import Button from './includes/components/Button';
 import ErrorMessage from './includes/components/ErrorMessage';
 import SuccessMessage from './includes/components/SuccessMessage';
 import { useAuth } from './contexts/AuthContext';
-import { login } from './services/login';
 
 const schema = z.object({
   email: z.string()
