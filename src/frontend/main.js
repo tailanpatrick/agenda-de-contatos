@@ -11,3 +11,5 @@ import './assets/css/style.css';
 import App from '../views/App.jsx';
 
 ReactDOM.hydrate(<App />, document.getElementById('root'));
+
+console.clear();
