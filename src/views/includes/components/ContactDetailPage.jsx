@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { deleteContact } from '../../services/delete-contact';
+import { useAuth } from '../../contexts/AuthContext';
 
 import Navbar from './Navbar';
-import { FaRegEdit } from "react-icons/fa";
-import { useAuth } from '../../contexts/AuthContext';
 import Loading from './Loading';
+import { FaRegEdit } from "react-icons/fa";
+import { FaWhatsappSquare } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 
 const ContactDetailPage = ({ contacts, setContacts }) => {
     const { user, loading } = useAuth();
@@ -46,8 +49,13 @@ const ContactDetailPage = ({ contacts, setContacts }) => {
 
     const handleDeleteContact = async (contactToDelete) => {
         setContacts(contacts.filter(contact => contact._id !== contactToDelete._id));
+        await deleteContact(contactToDelete._id);
         navigate('/');
     };
+
+    const handleGoWhatsApp = async(contact) => {
+        window.open(`https://wa.me/${contact.phone.replace(/\D/g, '')}`, '_blank')
+    }
 
     if (!contact) {
         return <Loading/>;
@@ -64,14 +72,22 @@ const ContactDetailPage = ({ contacts, setContacts }) => {
                                 <FaRegEdit className="cursor-pointer" onClick={() => handleEditClick(contact)} />
                             </div>
                             <div className="flex items-center justify-center w-20 h-20 bg-[#0D7DC0] text-white rounded-full text-3xl font-bold">
-                                {`${contact.name.charAt(0)}${contact.name.split(' ')[1] ? contact.name.split(' ')[1].charAt(0) : ''}`}
+                                {`${contact.name.charAt(0).toUpperCase()}${contact.name.split(' ')[1] ? contact.name.split(' ')[1].charAt(0).toUpperCase() : ''}`}
                             </div>
-                            <div className="px-10 py-4">
+                            <div className="px-14 py-4">
                                 <div className="text-center mt-2">
                                     <h2 className="text-2xl font-semibold">{contact.name}</h2>
                                     <p className="text-xl pt-2 inline-block text-gray-600">{contact.phone}</p>
                                 </div>
+
                                 <div className="flex justify-center mt-6">
+                                    <button className="inline-flex gap-2 text-white px-4 py-2 rounded-full bg-[#00A982] hover:bg-[#00dba9] focus:outline-none" onClick={() => handleGoWhatsApp(contact)}>
+                                    <FaWhatsapp className="text-2xl"/> WhatsApp 
+                                    </button>
+                                </div>
+
+
+                                <div className="flex justify-center mt-4">
                                     <button className="text-white px-4 py-2 rounded-full bg-red-500 hover:bg-red-400 focus:outline-none" onClick={() => handleDeleteContact(contact)}>
                                         Excluir Contato
                                     </button>
