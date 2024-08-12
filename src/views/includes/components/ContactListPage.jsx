@@ -17,7 +17,7 @@ function ContactListPage({ contacts }) {
             <li key={index} className="py-3 sm:py-4 cursor-pointer" onClick={() => handleContactClick(contact)}>
               <div className="flex items-center space-x-4">
                 <div className="flex items-center justify-center w-10 h-10 bg-[#0D7DC0] text-white rounded-full text-lg font-bold">
-                  {`${contact.name.charAt(0)}${!!contact.name.split(' ')[1] ? contact.name.split(' ')[1].charAt(0) : ''} `}
+                {`${contact.name.charAt(0).toUpperCase()}${contact.name.split(' ')[1] ? contact.name.split(' ')[1].charAt(0).toUpperCase() : ''}`}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 truncate">{contact.name}</p>
