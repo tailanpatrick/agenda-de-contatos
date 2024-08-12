@@ -22,6 +22,10 @@ route.get('/contacts', contactController.getContacts)
 
 route.get('/contact/:id',contactController.getContact )
 
+route.delete('/contact/:id', contactController.deleteContact);
+
+route.put('/contact/:id', contactController.editContact);
+
 route.post('/contact', contactController.register);
 
 module.exports = route;
