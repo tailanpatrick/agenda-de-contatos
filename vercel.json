@@ -1,20 +1,17 @@
 {
   "version": 2,
-  "name": "agenda-de-contatos",
   "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "public/**/*",
-      "use": "@vercel/static"
-    }
+    { "src": "frontend/**/*", "use": "@vercel/static-build" },
+    { "src": "server/server.js", "use": "@vercel/node" }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/server/server.js"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/server.js"
+      "dest": "/frontend/$1"
     }
   ]
 }
