@@ -12,7 +12,7 @@ mongoose.connect(CONNECTION_STRING)
     })
     .catch(e => console.log(e));
 
-const allowedOrigins = ['http://localhost:3000', 'http://192.168.100.175:3000'];
+const allowedOrigins = ['http://localhost:3000', 'http://192.168.100.175:3000', 'https://agenda-de-contatos-theta-two.vercel.app'];
 
 app.use(cors({
     origin: function (origin, callback) {
