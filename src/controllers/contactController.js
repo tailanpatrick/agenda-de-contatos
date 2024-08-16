@@ -75,6 +75,10 @@ exports.deleteContact = async (req, res) => {
     const contactExist = await Contact.getContact(contactId);
     const contactUserId = contactExist.user._id.toString();
 
+    if(!contactUserId){
+        return res.send(400).json({error: "Contato não existe"});
+    }
+
     if (contactUserId !== userId) {
         return res.status(403).json({ error: 'Você não tem permissão para deletar este contato.' });
     }
