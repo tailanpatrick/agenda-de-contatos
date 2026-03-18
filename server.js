@@ -36,7 +36,6 @@ const { middlewareGlobal, checkError, csrfMidddleware, check404 } = require('./s
 
 const React = require('react');
 
-// precisa usar o use express.urlencoded como true para receber o corpo da requisção POST
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, 'public')));
